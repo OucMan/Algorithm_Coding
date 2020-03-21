@@ -2,3 +2,27 @@
 
 输入一个链表，按链表从尾到头的顺序返回一个ArrayList。
 
+
+######解题思路#####
+改题考查栈的思想，我们可以先将链表顺序读取出来，存储到List中，然后再从后往前输出（即实现后进先出）。
+
+
+#######代码########
+
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    # 返回从尾部到头部的列表值序列，例如[1,2,3]
+    def printListFromTailToHead(self, listNode):
+        # write code here
+        result = []
+        head = listNode
+        while head:
+            result.append(head.val)
+            head = head.next
+        result.reverse() //注意reverse()没有返回值，所以不能直接return result.reverse()
+        return result
+          
