@@ -1,0 +1,55 @@
+##########题目描述##############
+
+输入一个链表，输出该链表中倒数第k个结点。
+
+
+##########解题思路#################
+
+1、从头到尾遍历链表并将节点放到List中，然后直接取出倒数k个节点，这样的时间复杂度为O(n)，空间复杂度O(n)
+
+2、维护两个指针q和q，刚开始都指向链表的头部，然后对于p指针，向前移动k个距离，然后p,q指针在一起向后移动，只到p指向None,q就指向了倒数k个节点。这里需要注意的是，链表的长度小于k的情况
+
+
+###########代码###############
+
+思路1
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def FindKthToTail(self, head, k):
+        # write code here
+        result = []
+        while head:
+            result.append(head)
+            head = head.next
+        if k<=0 or k > len(result):
+            return None
+        else:
+            return result[-k]
+            
+思路2
+
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def FindKthToTail(self, head, k):
+        # write code here
+        if k <=0:
+            return None
+        p = q = head
+        t = 0
+        while p and t < k:
+            p = p.next
+            t = t + 1
+        if t < k:
+            return None
+        while p:
+            p = p.next
+            q = q.next
+        return q
