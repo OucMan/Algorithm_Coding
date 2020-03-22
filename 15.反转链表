@@ -1,0 +1,30 @@
+###########题目描述###########
+
+输入一个链表，反转链表后，输出新链表的表头。
+
+
+#############解题思路##############
+
+在修改一个节点的next时，首先要保存好原始next指向的节点
+
+
+###############代码###################
+
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+class Solution:
+    # 返回ListNode
+    def ReverseList(self, pHead):
+        # write code here
+        if pHead == None:
+            return None
+        p = pHead
+        last = None
+        while p:
+            tmp = p.next
+            p.next = last
+            last = p
+            p = tmp
+        return last
