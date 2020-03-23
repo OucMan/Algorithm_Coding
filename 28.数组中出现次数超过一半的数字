@@ -1,0 +1,55 @@
+##############题目描述###############
+
+数组中有一个数字出现的次数超过数组长度的一半，请找出这个数字。例如输入一个长度为9的数组{1,2,3,2,2,2,5,4,2}。由于数字2在数组中出现了5次，超过数组长度的一半，因此输出2。如果不存在则输出0。
+
+
+
+###############解题思路#################
+思路1：对数组进行排序，如果存在一个数出现的次数大于数组长度的一半，则这个数必然出现在排序后数组的中间，因此只需要确认数组中数组元素出现的次数是否大于数组长度的一半即可
+
+思路2：使用一个变量来保存当前的众数，再使用另一个变量来为该众数计数。当出现的数等于众数时，计数器加1，否则见1，当计数器的值为负数时，将当前的数当做整数，计数器更新为1。这样的话，如果存在一个数的出现次数大于数组长度的一半，则最后的众数就是该数，因此只需要确认这个数的出现次数就好
+
+
+###############代码##################
+思路1
+class Solution:
+    def MoreThanHalfNum_Solution(self, numbers):
+        # write code here
+        if len(numbers) == 0:
+            return 0
+        numbers.sort()
+        mid = len(numbers) / 2
+        count = 0
+        for i in numbers:
+            if numbers[mid] == i:
+                count = count + 1
+        
+        if count > mid:
+            return numbers[mid];
+        else:
+            return 0
+            
+思路2            
+class Solution:
+    def MoreThanHalfNum_Solution(self, numbers):
+        # write code here
+        if len(numbers) == 0:
+            return 0
+        temp = numbers[0]
+        counter = 1
+        for i in range(1,len(numbers)):
+            if numbers[i] == temp:
+                counter = counter + 1
+            else:
+                counter = counter - 1
+                if counter < 0:
+                    temp = numbers[i]
+                    counter = 1
+        num = 0
+        for i in numbers:
+            if i == temp:
+                num = num + 1
+        if num > len(numbers) /2:
+            return temp
+        else:
+            return 0
