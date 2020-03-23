@@ -1,0 +1,37 @@
+##############题目描述##################
+
+输入n个整数，找出其中最小的K个数。例如输入4,5,1,6,2,7,3,8这8个数字，则最小的4个数字是1,2,3,4,。
+
+################解题思路#################
+
+思路1：先对数组进行排序，然后直接取出前k个数
+
+思路2：初始化一个长度为k的存储数组，当存储数组中的元素个数小于k时，则读入一个数据便加入其中。让存储数组中的元素个数等于k时，则读入一个数据，首先将其与存储数组中的最大值比较，小于最大值，则将存储数组中的最大值用当前数据替换，否则不做操作。因此存储数据存储的是当前数据中最小的k个数据
+
+
+##################代码##############
+思路1
+class Solution:
+    def GetLeastNumbers_Solution(self, tinput, k):
+        # write code here
+        if len(tinput) <= 0 or len(tinput) < k or k <=0:
+            return []
+        tinput.sort()
+        return tinput[:k]
+
+思路2
+class Solution:
+    def GetLeastNumbers_Solution(self, tinput, k):
+        # write code here
+        if len(tinput) <= 0 or len(tinput) < k or k <=0:
+            return []
+        save = []
+        for i in tinput:
+            if len(save) < k:
+                save.append(i)
+            else:
+                maxT = max(save)
+                if maxT > i:
+                    save[save.index(maxT)] = i
+        save.sort()
+        return save
