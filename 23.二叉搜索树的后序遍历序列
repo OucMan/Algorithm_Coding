@@ -1,0 +1,36 @@
+#############题目描述################
+
+输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历的结果。如果是则输出Yes,否则输出No。假设输入的数组的任意两个数字都互不相同。
+
+
+###############解题思路###############
+
+二叉搜索树的特性是对于所有子树，其根节点大于左子树，小于右子树。而后序遍历的顺序是左右根，即根节点是遍历序列最后一个元素。因此可以首先根据后序遍历的特点确定出根节点，然后根据二叉搜索树的大小关系确定左子树（左子树小于根节点），然后判断剩余的元素是不是全部符合右子树的特点。如果不符合则输出No,如果符合则进一步判断左子树和右子树是否符合上述特点。（递归的思想）
+
+################代码####################
+
+class Solution:
+    def VerifySquenceOfBST(self, sequence):
+        # write code here
+        if len(sequence) == 0:
+            return False
+        return self.subVerifySquenceOfBST(sequence)
+    def subVerifySquenceOfBST(self, sequence):
+        if len(sequence) <= 2:
+            return True
+        root = sequence[-1]
+        index = 0
+        while sequence[index] < root:
+            index = index + 1
+        for i in range(index, len(sequence)-1):
+            if sequence[i] <= root:
+                return False
+        return self.subVerifySquenceOfBST(sequence[0:index]) and self.subVerifySquenceOfBST(sequence[index: len(sequence)-1])
+        
+        
+        
+        
+        
+        
+        
+        
