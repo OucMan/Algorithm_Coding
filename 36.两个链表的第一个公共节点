@@ -1,0 +1,78 @@
+##########题目描述##################
+
+输入两个链表，找出它们的第一个公共结点。（注意因为传入数据是链表，所以错误测试数据的提示是用其他方式显示的，保证传入数据是正确的）
+
+
+#############解题思路##################
+
+思路1
+公共结点的意思是相同的点，不仅值相同，next也相同，那么同理公共结点后面的点也是不仅值相同，而且next也相同，这样的话，就可以把两条链条看成Y字型了，某一个结点后面的点全部一样。因此，可以使用两个栈分别存储两个链表，然后依次从栈顶开始，找到最后一个相同的节点。
+
+思路2
+
+两个链表如果有公共节点，则两个链表的后面部分会相同。首先遍历两个链表得到它们的长度，如果m>n，则m链表先走m-n步，然后两个链表再同时走，直到找到第一个相同的节点（即为它们的第一个公共节点）
+
+
+#############代码#################
+
+思路1
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+class Solution:
+    def FindFirstCommonNode(self, pHead1, pHead2):
+        # write code here
+        if not pHead1 and not pHead2:
+            return None
+        stack1 = []
+        stack2 = []
+        while pHead1:
+            stack1.append(pHead1)
+            pHead1 = pHead1.next
+        while pHead2:
+            stack2.append(pHead2)
+            pHead2 = pHead2.next
+        node = None
+        while stack1 and stack2 and stack1[-1] == stack2[-1]:
+            node = stack1.pop()
+            stack2.pop()
+        return node
+思路2
+
+class Solution:
+    def FindFirstCommonNode(self, pHead1, pHead2):
+        # write code here
+        if not pHead1 or not pHead2:
+            return None
+        l1 = self.getLength(pHead1)
+        l2 = self.getLength(pHead2)
+        pLong = None
+        pShort = None
+        if l1 >= l2:
+            pLong = pHead1
+            pShort = pHead2
+        else:
+            pLong = pHead2
+            pShort = pHead1
+        diff = abs(l1-l2)
+        while diff > 0:
+            pLong = pLong.next
+            diff = diff - 1
+        while pLong and pShort and pLong != pShort:
+            pLong = pLong.next
+            pShort = pShort.next
+        return pLong
+    
+    def getLength(self, p):
+        i = 0
+        while p:
+            i = i + 1
+            p = p.next
+        return i
+        
+        
+        
+        
+        
+        
