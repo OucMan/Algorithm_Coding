@@ -1,0 +1,38 @@
+###########题目描述############
+
+将一个字符串转换成一个整数，要求不能使用字符串转换整数的库函数。 数值为0或者字符串不是一个合法的数值则返回0
+
+输入一个字符串,包括数字字母符号,可以为空
+
+如果是合法的数值表达则返回该数字，否则返回0
+
+############解题思路###################
+
+首先查看字符串的长度是否合法。检测字符串的第一个字符是否是正负号，然后依次判断每一个字符是否为数字
+
+###############代码#####################
+
+class Solution:
+    def StrToInt(self, s):
+        # write code here
+        if not s or len(s) == 0:
+            return 0
+        if len(s) == 1 and s=='0':
+            return 0
+        flag = True
+        
+        if s[0] == '+':
+            s = s[1:]
+        elif s[0] == '-':
+            flag = False
+            s = s[1:]
+        sum = 0
+        for i in s:
+            if i.isdigit():
+                sum = sum * 10 + int(i)
+            else:
+                return 0
+        if flag:
+            return sum
+        else:
+            return -1 * sum
