@@ -1,0 +1,21 @@
+###########题目描述####################
+
+输入一个递增排序的数组和一个数字S，在数组中查找两个数，使得他们的和正好是S，如果有多对数字的和等于S，输出两个数的乘积最小的。对应每个测试案例，输出两个数，小的先输出。
+
+##############解题思路###################
+
+和相同的两个数，相差越大乘积越小，因此从后向前一次查找即可，找到的第一个满足条件的即为结果
+
+################代码####################
+
+class Solution:
+    def FindNumbersWithSum(self, array, tsum):
+        # write code here
+        if not array:
+            return []
+        for i in array:
+            if tsum-i in array:
+                tmp = [i, tsum-i]
+                tmp.sort()
+                return tmp
+        return []
