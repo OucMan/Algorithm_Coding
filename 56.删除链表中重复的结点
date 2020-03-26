@@ -1,0 +1,35 @@
+##############题目描述###################
+
+在一个排序的链表中，存在重复的结点，请删除该链表中重复的结点，重复的结点不保留，返回链表头指针。 例如，链表1->2->3->3->4->4->5 处理后为 1->2->5
+
+################解题思路######################
+思路1：可以先遍历链表，保存到List中，删除个数大于1的数，然后重新构造链表
+
+思路2：直接在原链表上修改，具体思路，新建一个节点head，其next为pHead，即节点head作为新的头节点，然后新建一个指针p指向head，新建cur指向pHead，p指针指向最后一个不重复的节点，cur通过与cur.next比较来判断是否重复。假如不重复，则直接移动p=p.next，cur=cur.next；假如重复，则计算出后面有多少重复的，并使cur到最先不重复的数，并赋值给p.next，直到cur为空
+
+###################代码#########################
+
+思路2
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+class Solution:
+    def deleteDuplication(self, pHead):
+        # write code here
+        if not pHead:
+            return None
+        head = ListNode(-1)
+        p = head
+        p.next = pHead
+        cur = pHead
+        while cur and cur.next:
+            if cur.val != cur.next.val:
+                p = p.next
+                cur = cur.next
+            else:
+                val = cur.val
+                while cur and cur.val == val:
+                    cur = cur.next
+                p.next = cur
+        return head.next
