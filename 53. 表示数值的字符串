@@ -1,0 +1,40 @@
+##############题目描述###################
+
+请实现一个函数用来判断字符串是否表示数值（包括整数和小数）。例如，字符串"+100","5e2","-123","3.1416"和"-1E-16"都表示数值。 但是"12e","1a3.14","1.2.3","+-5"和"12e+4.3"都不是。
+
+#################解题思路#####################
+
+正负号只能出现在第一个字符或者e(E)后的第一个字符。小数点只能出现一次，且在e(E)前面。e(E)不能为最后一个字符
+
+#################代码########################
+
+class Solution:
+    # s字符串
+    def isNumeric(self, s):
+        # write code here
+        if not s or len(s) <= 0:
+            return False
+        if len(s) == 1 and '0'<=s[0]<='9':
+            return True
+        if not ('0'<=s[0] <='9' or s[0] in '+-'):
+            return False
+        isDot = 0  #是否已经出现过小数点
+        allow_sign = 0  #是否可以为正负号
+        isE = 0          #是否可以为e(E)
+        for i in range(1, len(s)):
+            if '0'<=s[i] <='9':
+                continue
+            elif s[i]=='.' and isDot==0:
+                isDot = 1
+            elif (s[i]=='e' or s[i]=='E') and i < len(s)-1 and isE==0 and '0'<=s[i-1]<='9':
+                isE = 1
+                allow_sign = 1
+                isDot = 1
+            elif (s[i]=='+' or s[i]=='-') and allow_sign==1:
+                allow_sign = 0
+            else:
+                return False
+        return True
+                
+            
+            
