@@ -1,0 +1,39 @@
+################题目描述########################
+
+请实现一个函数按照之字形打印二叉树，即第一行按照从左到右的顺序打印，第二层按照从右至左的顺序打印，第三行按照从左到右的顺序打印，其他行以此类推。
+
+####################解题思路##########################
+
+使用两个列表来存储当前行节点与下一行节点，然后设置一个标记用来说明是正序还是逆序输出
+
+#####################代码#########################
+
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+class Solution:
+    def Print(self, pRoot):
+        # write code here
+        if not pRoot:
+            return []
+        curLay = [pRoot]
+        result = []
+        flag = 0
+        while curLay:
+            tmp = []
+            nextLay = []
+            for node in curLay:
+                tmp.append(node.val)
+                if node.left:
+                    nextLay.append(node.left)
+                if node.right:
+                    nextLay.append(node.right)
+            if flag == 0:
+                result.append(tmp)
+            else:
+                result.append(tmp[::-1])
+            curLay = nextLay
+            flag = (flag + 1) % 2
+        return result
