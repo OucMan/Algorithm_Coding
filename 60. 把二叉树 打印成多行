@@ -1,0 +1,35 @@
+################题目描述################
+
+从上到下按层打印二叉树，同一层结点从左至右输出。每一层输出一行。
+
+##################解题思路######################
+
+使用两个列表，一个保存当前层的节点，另一个保存下一层的节点
+
+####################代码#########################
+
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+class Solution:
+    # 返回二维列表[[1,2],[4,5]]
+    def Print(self, pRoot):
+        # write code here
+        if not pRoot:
+            return []
+        curLay = [pRoot]
+        result = []
+        while curLay:
+            nextLay = []
+            tmp = []
+            for node in curLay:
+                tmp.append(node.val)
+                if node.left:
+                    nextLay.append(node.left)
+                if node.right:
+                    nextLay.append(node.right)
+            result.append(tmp)
+            curLay = nextLay
+        return result
