@@ -1,0 +1,42 @@
+###################题目描述###################
+请设计一个函数，用来判断在一个矩阵中是否存在一条包含某字符串所有字符的路径。路径可以从矩阵中的任意一个格子开始，每一步可以在矩阵中向左，向右，向上，向下移动一个格子。如果一条路径经过了矩阵中的某一个格子，则该路径不能再进入该格子。 例如矩阵中包含一条字符串"bcced"的路径，但是矩阵中不包含"abcb"路径，因为字符串的第一个字符b占据了矩阵中的第一行第二个格子之后，路径不能再次进入该格子。
+
+#####################解题思路#######################
+本题是使用回溯法的典型题目。由于无法确定路径在字符矩阵中的起点，因此在矩阵中任选一格作为起点，进行搜索，判断是否存在所求路径。另外还需要与字符矩阵同样大小的标志数组，用来检查当前位置字符是否已经包含在路径中。矩阵中找到的第i个字符也一定对应着路径中第i个位置的字符。
+
+###################代码#########################
+
+# -*- coding:utf-8 -*-
+class Solution:
+    def hasPath(self, matrix, rows, cols, path):
+        # write code here
+        if not matrix or len(matrix) == 0 or len(matrix) != rows * cols or len(path) == 0:
+            return False
+        visited = [True for i in range(rows * cols)]
+        pathlength = 0
+        for row in range(rows):
+            for col in range(cols):
+                # 以矩阵中每一个位置作为起点进行搜索
+                if self.hasPathCore(matrix, rows, cols, path, row, col, visited, pathlength):
+                    return True
+        return False
+
+    def hasPathCore(self, matrix, rows, cols, path, row, col, visited, pathlength):
+        if pathlength == len(path):
+            return True
+        curhaspath = False
+        #参数校验：1、位置坐标不超过行列数 2、当前位置字符等于路径中对应位置的字符 3、当前位置未存在于当前已找到的路径中
+        if 0 <= col<cols and 0 <= row<rows and matrix[row * cols + col] == path[pathlength] and visited[row*cols+col]:
+            visited[row*cols+col] = False
+            pathlength = pathlength + 1
+            ## 分别向左，向右，向上，向下移动一个格子，任一方向能够继续往下走均可
+            curhaspath = self.hasPathCore(matrix, rows, cols, path, row-1, col, visited, pathlength) \
+                         or self.hasPathCore(matrix, rows, cols, path, row, col-1, visited, pathlength) \
+                         or self.hasPathCore(matrix, rows, cols, path, row+1, col, visited, pathlength) \
+                         or self.hasPathCore(matrix, rows, cols, path, row, col+1, visited, pathlength)
+            ## 如果不能再走下一步，需要回退到上一状态
+            if not curhaspath:
+                pathlength = pathlength - 1
+                visited[row*cols+col] = True
+        return curhaspath
+            
