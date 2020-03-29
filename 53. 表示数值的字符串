@@ -19,7 +19,6 @@ class Solution:
         if not ('0'<=s[0] <='9' or s[0] in '+-'):
             return False
         isDot = 0  #是否已经出现过小数点
-        allow_sign = 0  #是否可以为正负号
         isE = 0          #是否可以为e(E)
         for i in range(1, len(s)):
             if '0'<=s[i] <='9':
@@ -28,9 +27,8 @@ class Solution:
                 isDot = 1
             elif (s[i]=='e' or s[i]=='E') and i < len(s)-1 and isE==0 and '0'<=s[i-1]<='9':
                 isE = 1
-                allow_sign = 1
                 isDot = 1
-            elif (s[i]=='+' or s[i]=='-') and allow_sign==1:
+            elif (s[i]=='+' or s[i]=='-') and (s[i-1]=='e' or s[i-1]=='E'):
                 allow_sign = 0
             else:
                 return False
