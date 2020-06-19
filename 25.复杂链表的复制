@@ -5,21 +5,49 @@
 
 ###########解题思路##############
 
-递归思想
+首先为每一个节点复制新节点，并连接在各自的后面；
+
+然后更新random指针
+
+然后拆分链表
 
 ############代码###################
-# class RandomListNode:
-#     def __init__(self, x):
-#         self.label = x
-#         self.next = None
-#         self.random = None
+
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, x: int, next: 'Node' = None, random: 'Node' = None):
+        self.val = int(x)
+        self.next = next
+        self.random = random
+"""
 class Solution:
-    # 返回 RandomListNode
-    def Clone(self, pHead):
-        # write code here
-        if not pHead:
-            return None
-        newHead = RandomListNode(pHead.label)
-        newHead.random = pHead.random
-        newHead.next = self.Clone(pHead.next)
-        return newHead
+    def copyRandomList(self, head: 'Node') -> 'Node':
+
+        if not head:return None
+        # 在每个结点后边，copy一个新的结点
+        cur = head
+        while cur:
+            tmp = cur.next
+            cur.next = Node(cur.val,None,None)
+            cur.next.next = tmp
+            cur = tmp
+        # copy random指针
+        cur = head
+        while cur:
+            if cur.random:
+                cur.next.random = cur.random.next
+            cur = cur.next.next
+        # 拆分新旧链表
+        cur = head
+        copy_head = head.next
+        copy_cur = copy_head
+        while copy_cur.next:
+            cur.next = cur.next.next
+            cur = cur.next
+            copy_cur.next = copy_cur.next.next
+            copy_cur = copy_cur.next
+        # 尾端置空
+        cur.next = None
+        copy_cur.next = None
+        return copy_head
